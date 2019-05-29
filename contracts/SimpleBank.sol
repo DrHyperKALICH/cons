@@ -71,7 +71,7 @@ contract SimpleBank {
     function deposit() public payable returns (uint) {
         /* Add the amount to the user's balance, call the event associated with a deposit,
           then return the balance of the user */
-        require(enrolled[msg.sender] = true);
+        require(enrolled[msg.sender] = true && msg.value != 0);
         balances[msg.sender] = balances[msg.sender] + msg.value;
         emit LogDepositMade(msg.sender, msg.value);
         return balances[msg.sender];
@@ -90,6 +90,7 @@ contract SimpleBank {
         require(balances[msg.sender] >= withdrawAmount);
         balances[msg.sender] = balances[msg.sender] - withdrawAmount;
         msg.sender.transfer(withdrawAmount);
+        emit LogWithdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
         return balances[msg.sender];
     }
 
